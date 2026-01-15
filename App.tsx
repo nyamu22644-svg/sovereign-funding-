@@ -7,6 +7,7 @@ import ScalingPlan from './components/ScalingPlan';
 import TradingRules from './components/TradingRules';
 import FAQ from './components/FAQ';
 import Login from './components/Login';
+import PaymentSuccess from './components/PaymentSuccess';
 
 const Footer: React.FC = () => (
   <footer className="bg-darkbg border-t border-white/5 py-12">
@@ -46,7 +47,7 @@ const Footer: React.FC = () => (
   </footer>
 );
 
-export type ViewState = 'home' | 'evaluation' | 'dashboard' | 'scaling-plan' | 'trading-rules' | 'faq' | 'login';
+export type ViewState = 'home' | 'evaluation' | 'dashboard' | 'scaling-plan' | 'trading-rules' | 'faq' | 'login' | 'payment-success';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -78,8 +79,11 @@ const App: React.FC = () => {
             onNavigateToSignup={() => setCurrentView('evaluation')} 
           />
         )}
+        {currentView === 'payment-success' && (
+          <PaymentSuccess onGoToDashboard={() => setCurrentView('dashboard')} />
+        )}
       </main>
-      {currentView !== 'login' && <Footer />}
+      {currentView !== 'login' && currentView !== 'payment-success' && <Footer />}
     </div>
   );
 };
