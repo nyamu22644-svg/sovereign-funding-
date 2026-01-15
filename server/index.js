@@ -57,7 +57,8 @@ app.post('/api/create-payment-intent', async (req, res) => {
       email: email || 'test@example.com',
       phone_number: '+1234567890', // IntaSend may require phone
       first_name: 'Test',
-      last_name: 'User'
+      last_name: 'User',
+      redirect_url: 'http://localhost:3000/payment-success'
     };
     
     console.log('Charge payload:', JSON.stringify(chargePayload));
