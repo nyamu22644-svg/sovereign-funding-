@@ -1,64 +1,172 @@
-# Syntax Engine
+# Sovereign Funding - Complete Trading Platform
 
-A Python-based trading evaluation engine for prop trading firms. Monitors trader accounts across multiple brokers (Deriv, MT4, MT5, cTrader, etc.) and evaluates challenge performance in real-time.
+A full-stack trading evaluation platform with payment integration and real-time account monitoring.
 
-## Features
+## 🚀 Project Overview
 
-- **Multi-Broker Support**: Adapter pattern for different trading platforms
+This monorepo contains:
+- **Frontend**: Vite + React - Modern UI for account tier selection and payment
+- **Backend**: Express.js - Payment processing with IntaSend API
+- **Engine**: Python - Real-time trading evaluation engine for prop firms
+
+## 📋 Prerequisites
+
+- Node.js (v18+) for frontend/backend
+- Python 3.8+ for engine
+- npm/yarn
+- IntaSend API keys
+- Supabase account
+
+## 🔧 Installation
+
+### Clone the Repository
+```bash
+git clone https://github.com/nyamu22644-svg/sovereign-funding-.git
+cd sovereign-funding
+```
+
+### Frontend Setup
+```bash
+npm install
+```
+
+### Backend Setup
+```bash
+cd server
+npm install
+cd ..
+```
+
+### Engine Setup
+```bash
+cd src  # Engine is in src/ directory
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+pip install -r requirements.txt
+cd ..
+```
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+**Root directory** - `.env.local` (Frontend):
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+INTASEND_PUBLISHABLE_KEY=your_intasend_publishable_key
+INTASEND_SECRET_KEY=your_intasend_secret_key
+```
+
+**Server directory** - `server/.env` (Backend):
+```env
+INTASEND_PUBLISHABLE_KEY=your_intasend_publishable_key
+INTASEND_SECRET_KEY=your_intasend_secret_key
+PORT=3001
+```
+
+**Engine directory** - `src/.env` (Engine):
+```env
+DERIV_APP_ID=your_app_id
+DERIV_API_TOKEN=your_token
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_KEY=your_service_key
+```
+
+## 🏃 Running the Application
+
+### Start Frontend
+```bash
+npm run dev
+```
+Runs on: `http://localhost:3000`
+
+### Start Backend
+```bash
+cd server
+npm run dev
+```
+Runs on: `http://localhost:3001`
+
+### Start Engine
+```bash
+cd src
+python main.py
+```
+
+## 📁 Project Structure
+
+```
+sovereign-funding/
+├── components/              # React components (Frontend)
+│   ├── Evaluation.tsx      # Account tier selection
+│   ├── Button.tsx
+│   └── ...
+├── server/                 # Express backend
+│   ├── index.js           # IntaSend payment integration
+│   └── ...
+├── src/                    # Python engine
+│   ├── main.py            # Engine entry point
+│   ├── referee.py         # Evaluation logic
+│   ├── adapters/          # Broker adapters
+│   ├── config.py
+│   ├── requirements.txt
+│   └── ...
+├── .env.local             # Frontend env vars
+├── README.md              # This file
+└── ...
+```
+
+## 💳 Payment Flow
+
+1. User selects account tier → Frontend sends to backend
+2. Backend creates IntaSend payment intent
+3. User completes payment → Account funded
+4. Engine monitors trading performance in real-time
+
+## 🔍 Engine Features
+
+- **Multi-Broker Support**: Deriv, MT4, MT5, cTrader, etc.
 - **Real-Time Monitoring**: 30-second evaluation cycles
-- **Challenge Evaluation**: Breach/pass detection based on drawdown and profit targets
-- **Supabase Integration**: Live sync of trading data and states
-- **Auto-Discovery**: Automatically sets challenge parameters from account balance
+- **Challenge Evaluation**: Breach/pass detection
+- **Supabase Integration**: Live data sync
+- **Auto-Discovery**: Sets parameters from balance
 
-## Setup
+## 🗄️ Database Schema
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-   cd syntax-engine
-   ```
+See `src/supabase_schema.sql` for required tables:
+- `user_accounts`: Trader info and challenge settings
+- `trading_states`: Live balance and status
+- `profit_table`: P&L tracking
 
-2. **Create virtual environment**
-   ```bash
-   python -m venv .venv
-   .venv\Scripts\activate  # Windows
-   ```
+## 🔐 Security
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Environment variables**
-   Create a `.env` file with:
-   ```
-   DERIV_APP_ID=your_app_id
-   DERIV_API_TOKEN=your_token
-   SUPABASE_URL=your_supabase_url
-   SUPABASE_SERVICE_KEY=your_service_key
-   ```
-
-5. **Run the engine**
-   ```bash
-   python main.py
-   ```
-
-## Database Schema
-
-See `supabase_schema.sql` for the required tables:
-- `user_accounts`: Trader information and challenge settings
-- `trading_states`: Live balance and evaluation status
-- `profit_table`: Daily P&L tracking
-
-## Security
-
-- Never commit `.env` files or API keys
-- Use service-role keys for Supabase RLS bypass
+- Never commit `.env` files
+- Use service-role keys for Supabase
 - Rotate API tokens regularly
+- Secret keys server-side only
 
-## Architecture
+## 🚀 Deployment
 
-- `main.py`: Entry point with asyncio loop
-- `src/referee.py`: Core evaluation logic
-- `src/adapters/`: Broker-specific implementations
-- `src/config.py`: Environment configuration
+### Frontend
+```bash
+npm run build
+```
+Deploy `dist/` folder.
+
+### Backend
+Deploy `server/` with environment variables.
+
+### Engine
+Deploy `src/` with Python environment and `.env`.
+
+## 📝 Development
+
+- Frontend: Hot-reload with Vite
+- Backend: Auto-reload with `npm run dev`
+- Engine: Edit Python files, restart as needed
+
+## 🤝 Support
+
+- IntaSend: https://intasend.com/docs
+- Supabase: https://supabase.com/docs
+- Deriv API: https://developers.deriv.com
