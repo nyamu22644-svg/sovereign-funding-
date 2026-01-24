@@ -1,11 +1,14 @@
 import React from 'react';
 import Button from './Button';
+import { useContent } from '../context/ContentContext';
 
 interface HeroProps {
   onStartEvaluation: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onStartEvaluation }) => {
+  const { t } = useContent();
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-darkbg">
       {/* Background Grid Effect */}
@@ -22,51 +25,49 @@ const Hero: React.FC<HeroProps> = ({ onStartEvaluation }) => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-neon"></span>
           </span>
-          <span className="text-neon text-xs font-bold tracking-widest uppercase">Accepting New Traders</span>
+          <span className="text-neon text-xs font-bold tracking-widest uppercase">{t('home_hero_badge')}</span>
         </div>
 
         {/* Headline */}
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-6 leading-tight">
-          <span className="block text-gold drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">SOVEREIGN FUNDING.</span>
+          <span className="block text-gold drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">{t('home_hero_title')}</span>
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-neon to-white drop-shadow-[0_0_15px_rgba(102,252,241,0.3)]">
-            TRADE OUR CAPITAL.
+            {t('home_hero_title_2')}
           </span>
         </h1>
 
         {/* Subtitle */}
         <p className="mt-4 max-w-2xl mx-auto text-xl text-silver md:text-2xl font-light leading-relaxed">
-          Prove your skills. Get funded up to <span className="text-white font-semibold">$200,000</span>. 
-          Keep up to <span className="text-neon font-semibold">90%</span> of the profits. 
-          Institutional-grade infrastructure for serious traders.
+          {t('home_hero_subtitle')}
         </p>
 
         {/* CTA Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row gap-6 w-full justify-center">
           <Button variant="primary" className="min-w-[200px]" onClick={onStartEvaluation}>
-            Start Evaluation
+            {t('home_cta_button')}
           </Button>
           <Button variant="secondary" className="min-w-[200px]" onClick={onStartEvaluation}>
-            View Offering
+            {t('home_cta_button_2')}
           </Button>
         </div>
 
         {/* Trust Indicators */}
         <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4 text-center opacity-50">
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-white">50K+</span>
-            <span className="text-xs text-silver uppercase tracking-wider">Traders</span>
+            <span className="text-2xl font-bold text-white">{t('stat_traders')}</span>
+            <span className="text-xs text-silver uppercase tracking-wider">{t('stat_traders_label')}</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-white">$15M+</span>
-            <span className="text-xs text-silver uppercase tracking-wider">Payouts</span>
+            <span className="text-2xl font-bold text-white">{t('stat_payouts')}</span>
+            <span className="text-xs text-silver uppercase tracking-wider">{t('stat_payouts_label')}</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-white">100+</span>
-            <span className="text-xs text-silver uppercase tracking-wider">Countries</span>
+            <span className="text-2xl font-bold text-white">{t('stat_countries')}</span>
+            <span className="text-xs text-silver uppercase tracking-wider">{t('stat_countries_label')}</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-white">&lt; 4h</span>
-            <span className="text-xs text-silver uppercase tracking-wider">Avg Payout Time</span>
+            <span className="text-2xl font-bold text-white">{t('stat_payout_time')}</span>
+            <span className="text-xs text-silver uppercase tracking-wider">{t('stat_payout_time_label')}</span>
           </div>
         </div>
       </div>

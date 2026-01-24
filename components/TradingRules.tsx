@@ -1,4 +1,5 @@
 import React from 'react';
+import { useContent } from '../context/ContentContext';
 
 interface Rule {
   title: string;
@@ -7,46 +8,48 @@ interface Rule {
   type: 'breach' | 'target' | 'info';
 }
 
-const rules: Rule[] = [
-  {
-    title: "Max Daily Loss",
-    value: "5%",
-    detail: "Hard Breach. Calculated based on the higher of the initial balance or equity at the start of the day.",
-    type: "breach"
-  },
-  {
-    title: "Max Total Drawdown",
-    value: "10%",
-    detail: "Hard Breach. Trailing drawdown calculated from the highest high water mark.",
-    type: "breach"
-  },
-  {
-    title: "Profit Target",
-    value: "10% / 5%",
-    detail: "Phase 1 requires 10% profit. Phase 2 requires 5% profit to pass.",
-    type: "target"
-  },
-  {
-    title: "Minimum Trading Days",
-    value: "5 Days",
-    detail: "You must trade for a minimum of 5 days in each phase to advance.",
-    type: "target"
-  },
-  {
-    title: "News Trading",
-    value: "Allowed",
-    detail: "Trading during high-impact news events is permitted, subject to slippage risks.",
-    type: "info"
-  },
-  {
-    title: "Overnight & Weekend",
-    value: "Allowed",
-    detail: "Holding positions overnight and over the weekend is fully permitted.",
-    type: "info"
-  }
-];
-
 const TradingRules: React.FC = () => {
+  const { t } = useContent();
+
+  const rules: Rule[] = [
+    {
+      title: t('rule_1_title'),
+      value: t('rule_1_value'),
+      detail: t('rule_1_detail'),
+      type: "breach"
+    },
+    {
+      title: t('rule_2_title'),
+      value: t('rule_2_value'),
+      detail: t('rule_2_detail'),
+      type: "breach"
+    },
+    {
+      title: t('rule_3_title'),
+      value: t('rule_3_value'),
+      detail: t('rule_3_detail'),
+      type: "target"
+    },
+    {
+      title: t('rule_4_title'),
+      value: t('rule_4_value'),
+      detail: t('rule_4_detail'),
+      type: "target"
+    },
+    {
+      title: t('rule_5_title'),
+      value: t('rule_5_value'),
+      detail: t('rule_5_detail'),
+      type: "info"
+    },
+    {
+      title: t('rule_6_title'),
+      value: t('rule_6_value'),
+      detail: t('rule_6_detail'),
+      type: "info"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-darkbg pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Elements */}
@@ -57,10 +60,10 @@ const TradingRules: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter mb-4 text-gold drop-shadow-[0_0_15px_rgba(255,215,0,0.2)]">
-            TRADING OBJECTIVES & RULES
+            {t('rules_page_title')}
           </h1>
           <p className="text-xl text-silver font-light max-w-3xl mx-auto">
-            Adherence to these parameters is required to pass the evaluation and maintain a funded account.
+            {t('rules_page_subtitle')}
           </p>
         </div>
 

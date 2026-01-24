@@ -1,11 +1,13 @@
 import React from 'react';
 import Button from './Button';
+import { useAuth } from '../context/AuthContext';
 
 interface PaymentSuccessProps {
   onGoToDashboard: () => void;
 }
 
 const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ onGoToDashboard }) => {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen bg-darkbg flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden pt-20 pb-20">
       {/* Background Elements */}
@@ -40,13 +42,13 @@ const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ onGoToDashboard }) => {
 
           {/* Description */}
           <p className="text-silver text-base leading-relaxed mb-8">
-            Your trading credentials have been sent to your email. Check your inbox (and spam folder) for your account details and login information.
+            Payment confirmed. Next, connect your Deriv demo token so we can verify the $10,000 balance and start monitoring.
           </p>
 
           {/* Info Box */}
           <div className="bg-neon/5 border border-neon/20 rounded-lg p-4 mb-8">
             <p className="text-neon text-sm">
-              <span className="font-bold">Next Step:</span> Log in to your Client Portal to access your funded account and begin trading.
+              <span className="font-bold">Next Step:</span> {user ? 'Go to Settings and paste your Deriv API token.' : 'Log in, then go to Settings and paste your Deriv API token.'}
             </p>
           </div>
 
@@ -62,10 +64,7 @@ const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ onGoToDashboard }) => {
           {/* Support Link */}
           <div className="mt-6 pt-6 border-t border-white/5">
             <p className="text-xs text-gray-400">
-              Need help?{' '}
-              <a href="#" className="text-neon hover:text-white transition-colors font-semibold">
-                Contact Support
-              </a>
+              Need help? Contact Support
             </p>
           </div>
         </div>

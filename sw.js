@@ -13,6 +13,11 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Ignore API calls and internal port 3005
+  if (event.request.url.includes('/api/') || event.request.url.includes(':3005')) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => response || fetch(event.request))

@@ -1,8 +1,9 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'premium';
   fullWidth?: boolean;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 const Button: React.FC<ButtonProps> = ({ 

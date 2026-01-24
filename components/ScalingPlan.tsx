@@ -1,4 +1,5 @@
 import React from 'react';
+import { useContent } from '../context/ContentContext';
 import Button from './Button';
 
 interface ScalingStep {
@@ -10,38 +11,40 @@ interface ScalingStep {
   status: string;
 }
 
-const steps: ScalingStep[] = [
-  {
-    level: "Level 1: The Foundation",
-    capital: "$100,000",
-    split: "80% Profit Split",
-    requirements: ["Pass Evaluation Phase 1 & 2", "Consistent Risk Management"],
-    theme: "neon",
-    status: "Starting Point"
-  },
-  {
-    level: "Level 2: The Expansion",
-    capital: "$200,000",
-    split: "85% Profit Split",
-    requirements: ["3 Months of Profitability", "Average 10% Profit / Quarter", "No Serious Rule Violations"],
-    theme: "neon",
-    status: "Growth Phase"
-  },
-  {
-    level: "Level 3: The Sovereign",
-    capital: "$500,000 - $2M",
-    split: "90% Profit Split",
-    requirements: ["Consistent Level 2 Performance", "VIP Trader Status Invitation", "Institutional Access"],
-    theme: "gold",
-    status: "Pinnacle Status"
-  }
-];
-
 interface ScalingPlanProps {
   onStartEvaluation: () => void;
 }
 
 const ScalingPlan: React.FC<ScalingPlanProps> = ({ onStartEvaluation }) => {
+  const { t } = useContent();
+
+  const steps: ScalingStep[] = [
+    {
+      level: t('scaling_level1_title'),
+      capital: t('scaling_level1_capital'),
+      split: t('scaling_level1_split'),
+      requirements: ["Pass Evaluation Phase 1 & 2", "Consistent Risk Management"],
+      theme: "neon",
+      status: t('scaling_level1_status')
+    },
+    {
+      level: t('scaling_level2_title'),
+      capital: t('scaling_level2_capital'),
+      split: t('scaling_level2_split'),
+      requirements: ["3 Months of Profitability", "Average 10% Profit / Quarter", "No Serious Rule Violations"],
+      theme: "neon",
+      status: t('scaling_level2_status')
+    },
+    {
+      level: t('scaling_level3_title'),
+      capital: t('scaling_level3_capital'),
+      split: t('scaling_level3_split'),
+      requirements: ["Consistent Level 2 Performance", "VIP Trader Status Invitation", "Institutional Access"],
+      theme: "gold",
+      status: t('scaling_level3_status')
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-darkbg pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Elements */}
@@ -52,10 +55,10 @@ const ScalingPlan: React.FC<ScalingPlanProps> = ({ onStartEvaluation }) => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tighter mb-4 text-gold drop-shadow-[0_0_15px_rgba(255,215,0,0.2)]">
-            THE SOVEREIGN SCALING PATH
+            {t('scaling_title')}
           </h1>
           <p className="text-xl text-silver font-light">
-            Consistent performance deserves greater rewards. Grow your capital up to $2 Million.
+            {t('scaling_subtitle')}
           </p>
         </div>
 
@@ -120,7 +123,7 @@ const ScalingPlan: React.FC<ScalingPlanProps> = ({ onStartEvaluation }) => {
         </div>
 
         <div className="mt-20 text-center">
-            <Button variant="primary" className="mx-auto" onClick={onStartEvaluation}>Start Your Journey</Button>
+            <Button variant="primary" className="mx-auto" onClick={onStartEvaluation}>{t('scaling_cta')}</Button>
         </div>
 
       </div>

@@ -1,35 +1,41 @@
 import React, { useState } from 'react';
+import { useContent } from '../context/ContentContext';
 
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-const faqs: FAQItem[] = [
-  {
-    question: "How long does the evaluation take?",
-    answer: "There is no minimum or maximum time limit. You can pass in as little as 5 days if all objectives are met."
-  },
-  {
-    question: "What platforms can I use?",
-    answer: "We currently support trading via Deriv. More platforms will be added in the future to provide flexibility for all trading styles."
-  },
-  {
-    question: "When do I get paid?",
-    answer: "Payouts are processed bi-weekly via crypto (USDT, BTC, ETH) or direct bank transfer once you are a funded trader. The first payout can be requested after 14 days of the first trade on the funded account."
-  },
-  {
-    question: "Is the evaluation on a live account?",
-    answer: "No, the evaluation phase (Phase 1 and Phase 2) is conducted on a simulated account with real market data. This allows us to assess your risk management without risking capital. Once funded, you will operate on live capital."
-  },
-  {
-    question: "What happens if I breach a rule?",
-    answer: "If a hard rule (like Max Daily Loss or Max Total Drawdown) is breached, the account is automatically closed to protect our capital. You are welcome to start a new evaluation by purchasing a new challenge at any time."
-  }
-];
-
 const FAQ: React.FC = () => {
+  const { t } = useContent();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs: FAQItem[] = [
+    {
+      question: t('faq_1_q'),
+      answer: t('faq_1_a')
+    },
+    {
+      question: t('faq_2_q'),
+      answer: t('faq_2_a')
+    },
+    {
+      question: t('faq_3_q'),
+      answer: t('faq_3_a')
+    },
+    {
+      question: t('faq_4_q'),
+      answer: t('faq_4_a')
+    },
+    {
+      question: t('faq_5_q'),
+      answer: t('faq_5_a')
+    },
+    {
+      question: t('faq_6_q'),
+      answer: t('faq_6_a')
+    }
+  ];
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -45,10 +51,10 @@ const FAQ: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter mb-4 text-gold drop-shadow-[0_0_15px_rgba(255,215,0,0.2)]">
-            FREQUENTLY ASKED QUESTIONS
+            {t('faq_page_title')}
           </h1>
           <p className="text-xl text-silver font-light max-w-2xl mx-auto">
-            Everything you need to know about becoming a funded trader with Sovereign Funding.
+            {t('faq_page_subtitle')}
           </p>
         </div>
 

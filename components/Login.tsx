@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Button from './Button';
+import PasswordReset from './PasswordReset';
+import { validateForm } from '../lib/validation';
 
 interface LoginProps {
   onLogin: () => void;
@@ -9,14 +11,45 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onLogin, onNavigateToSignup }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login process
-    setTimeout(() => {
-        onLogin();
-    }, 500);
+    setErrors({});
+
+    // Validate form
+    const validation = validateForm(
+      { email, password },
+      {
+        email: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+        password: { required: true, minLength: 6 }
+      }
+    );
+
+    if (!validation.isValid) {
+      setErrors(validation.errors);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Here you would integrate with Supabase auth
+      // For now, simulate login process
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      onLogin();
+    } catch (error) {
+      setErrors({ general: 'Login failed. Please check your credentials.' });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (showPasswordReset) {
+    return <PasswordReset onBack={() => setShowPasswordReset(false)} />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-darkbg px-4 sm:px-6 lg:px-8 relative overflow-hidden pt-20 pb-20">
@@ -38,6 +71,12 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigateToSignup }) => {
              </div>
 
              <form className="space-y-6" onSubmit={handleSubmit}>
+                {errors.general && (
+                  <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                    {errors.general}
+                  </div>
+                )}
+
                 <div>
                    <label htmlFor="email" className="block text-xs font-medium text-silver uppercase tracking-wider mb-2">
                       Email Address
@@ -51,12 +90,17 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigateToSignup }) => {
                         name="email"
                         type="email"
                         required
-                        className="block w-full pl-10 pr-3 py-3 border border-white/10 rounded-lg leading-5 bg-darkbg/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-neon focus:border-neon sm:text-sm transition-colors duration-200"
+                        className={`block w-full pl-10 pr-3 py-3 border rounded-lg leading-5 bg-darkbg/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm transition-colors duration-200 ${
+                          errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-white/10 focus:border-neon focus:ring-neon'
+                        }`}
                         placeholder="trader@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
                    </div>
+                   {errors.email && (
+                     <p className="mt-1 text-sm text-red-400">{errors.email}</p>
+                   )}
                 </div>
 
                 <div>
@@ -72,12 +116,17 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigateToSignup }) => {
                         name="password"
                         type="password"
                         required
-                        className="block w-full pl-10 pr-3 py-3 border border-white/10 rounded-lg leading-5 bg-darkbg/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-neon focus:border-neon sm:text-sm transition-colors duration-200"
+                        className={`block w-full pl-10 pr-3 py-3 border rounded-lg leading-5 bg-darkbg/50 text-white placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm transition-colors duration-200 ${
+                          errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-white/10 focus:border-neon focus:ring-neon'
+                        }`}
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
                    </div>
+                   {errors.password && (
+                     <p className="mt-1 text-sm text-red-400">{errors.password}</p>
+                   )}
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -94,15 +143,24 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigateToSignup }) => {
                    </div>
 
                    <div className="text-xs">
-                      <a href="#" className="font-medium text-neon hover:text-white transition-colors">
+                      <button
+                        onClick={() => setShowPasswordReset(true)}
+                        className="font-medium text-neon hover:text-white transition-colors"
+                      >
                         Forgot password?
-                      </a>
+                      </button>
                    </div>
                 </div>
 
                 <div>
-                   <Button variant="secondary" fullWidth type="submit" className="shadow-[0_0_20px_rgba(255,215,0,0.2)]">
-                      Secure Login
+                   <Button
+                     variant="secondary"
+                     fullWidth
+                     type="submit"
+                     className="shadow-[0_0_20px_rgba(255,215,0,0.2)]"
+                     disabled={loading}
+                   >
+                     {loading ? 'Authenticating...' : 'Secure Login'}
                    </Button>
                 </div>
              </form>
