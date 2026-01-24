@@ -1,0 +1,5 @@
+python-deriv-api
+websockets
+python-dotenv
+colorama
+supabase
